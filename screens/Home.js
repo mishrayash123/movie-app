@@ -1,35 +1,85 @@
-import {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {StatusBar} from "expo-status-bar";
+import {useEffect, useState} from "react";
+import {
+    View,
+    Text,
+    ActivityIndicator,
+    FlatList,
+    StyleSheet
+} from "react-native";
+import Card from "../components/Card";
+import Search from "../components/Search";
 
-
-export default function Home() {
-    const [movies, setmovies] = useState([]);
-    const [loading, setloading] = useState(true);
+export default function HomeScreen({navigation}) {
+    const [movieList, setMovieList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [text, setText] = useState("");
 
     useEffect(() => {
-        setloading(true);
-        async function getmovielist() {
-            const apires = await fetch('https://imdb-top-100-movies.p.rapidapi.com/', {
-                method: 'GET',
+        setLoading(true);
+        async function getListOfMovies() {
+            const apiRes = await fetch("https://imdb-top-100-movies.p.rapidapi.com/", {
+                method: "GET",
                 headers: {
                     'X-RapidAPI-Key': 'e8d49997e3mshc19c5745cb99d78p1bb5a1jsnedfa2627415c',
                     'X-RapidAPI-Host': 'imdb-top-100-movies.p.rapidapi.com'
                 }
             });
-            const result = await apires.json();
-            if(result){
-                setloading(false);
-                setmovies(result);
+
+            const result = await apiRes.json();
+
+            if (result) {
+                setLoading(false);
+                setMovieList(result);
             }
         }
-        getmovielist();
+
+        getListOfMovies();
     }, []);
 
-    // console.log(movies, loading)
+    console.log(loading);
+
+    useEffect(() => {
+        navigation.setOptions({headerShown: false});
+
+        return() => {};
+    }, [navigation]);
+
+    if (loading) {
+        return (
+            <ActivityIndicator color={"red"}
+                style={
+                    {flex: 1}
+                }
+                size={"large"}/>
+        );
+    }
+
+    const filteredMovieList = text && text.trim() !== "" ? movieList.filter((item) => item.title.toLowerCase().includes(text)) : movieList;
 
     return (
-        <View>
-            <Text>Home screen</Text>
+        <View style={
+            styles.container
+        }>
+            <Search text={text}
+                setText={setText}/>
+            <FlatList data={
+                    filteredMovieList || []
+                }
+                renderItem={
+                    ({item}) => (
+                        <Card navigation={navigation}
+                            item={item}/>
+                    )
+                }/>
+            <StatusBar style="light"/>
         </View>
-    )
+    );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: 30
+    }
+});
