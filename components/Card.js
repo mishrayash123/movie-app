@@ -35,7 +35,7 @@ export default function Card({ navigation, item, isDetailsPage }) {
           <Text
             style={{
               fontSize: isDetailsPage ? 25 : 14,
-              color: "#000000",
+              color: "green",
               fontWeight: "bold",
               textTransform: "capitalize",
             }}
@@ -60,7 +60,7 @@ export default function Card({ navigation, item, isDetailsPage }) {
           )}
           {isDetailsPage && (
             <View style={{ marginTop: 6 }}>
-              <Text style={{ color: "gray", fontSize: 18 }}>
+              <Text style={{ color: "black", fontSize: 18 }}>
                 {item.description}
               </Text>
             </View>
@@ -68,7 +68,7 @@ export default function Card({ navigation, item, isDetailsPage }) {
           {isDetailsPage && (
             <View style={{ marginTop: 5 }}>
               <Text
-                style={{ fontSize: 14, color: "#000" }}
+                style={{ fontSize: 14, color: "blue" }}
               >{`${item.genre[0]} | ${item.director[0]}`}</Text>
             </View>
           )}
@@ -77,7 +77,7 @@ export default function Card({ navigation, item, isDetailsPage }) {
               <Button
                 onPress={() => navigation.navigate("Details", { id: item.id })}
                 title="Details"
-                color={"red"}
+                color={"blue"}
               />
             </View>
           )}
@@ -90,7 +90,7 @@ export default function Card({ navigation, item, isDetailsPage }) {
 const styles = StyleSheet.create({
   mainCardStyles: {
     height: 250,
-    backgroundColor: "#ffffff",
+    backgroundColor: "pink",
     borderRadius: 15,
     elevation: 8,
     flexDirection: "row",

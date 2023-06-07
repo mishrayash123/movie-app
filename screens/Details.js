@@ -33,7 +33,6 @@ export default function DetailsScreen({route}) {
         }
     }, [id]);
 
-    console.log(detailsData, loading);
 
     if (loading) {
         return <ActivityIndicator size={'large'}

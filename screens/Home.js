@@ -37,7 +37,7 @@ export default function HomeScreen({navigation}) {
         getListOfMovies();
     }, []);
 
-    console.log(loading);
+    
 
     useEffect(() => {
         navigation.setOptions({headerShown: false});
@@ -55,7 +55,7 @@ export default function HomeScreen({navigation}) {
         );
     }
 
-    const filteredMovieList = text && text.trim() !== "" ? movieList.filter((item) => item.title.toLowerCase().includes(text)) : movieList;
+    const filteredMovieList = text && text.trim() !== "" ? movieList.filter((item) => item.title.toUpperCase().includes(text.toUpperCase())) : movieList;
 
     return (
         <View style={
